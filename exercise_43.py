@@ -105,11 +105,11 @@ need the code to get the bomb out. If you get the code
 wrong 10 times then the lock closes forever and you can't get
 the bomb. The code is 3 digits.
 """))
-        code = f'{randint(1,9)}{randint(1,9)}{randint(1,9)}'
+        code = f'{randint(1,1)}{randint(1,1)}{randint(1,1)}'
         guess = input('[keypad]> ')
         guesses = 0
 
-        while guess != code and guesses < 10:
+        while guess != code and guesses < 9:
             print('BZZZZZZZZEDDD')
             guesses += 1
             guess = input('[keypad]> ')
@@ -189,7 +189,7 @@ time to look. There's 5 pods, which one do you take?
         guess = input('[pod #]> ')
 
         if int(guess) != good_pod:
-            print(dedent("""
+            print(dedent(f"""
             You jump into pod {guess} and hit the
 eject button.
 The pod escapes out into the void of
@@ -198,7 +198,7 @@ your body into jam jelly.
 """))
             return 'death'
         else:
-            print(dedent("""
+            print(dedent(f"""
 You jump into pod {guess} and hit the
 eject button.
 The pod easily slides out into space
@@ -227,6 +227,7 @@ class Map:
         'death': Death(),
         'finished': Finished,
     }
+
 
     def __init__(self, start_scene):
         self.start_scene = start_scene
