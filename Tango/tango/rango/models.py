@@ -1,3 +1,40 @@
 from django.db import models
 
 # Create your models here.
+class Category(models.Model):
+	name = models.CharField(max_length=128, unique=True)
+
+
+	def __str__(self):
+		return self.name
+
+
+class Page(models.Model):
+	category = models.ForeignKey(Category, on_delete=models.CASCADE)
+	title = models.CharField(max_length=128)
+	url = models.URLField()
+	views = models.IntegerField(default=0)
+	
+	
+	def __str__(self):
+		return self.title
+
+
+class Rating(models.Model):
+	'''Here I want to rate my Pages'''
+	Rating_CHOICES = (
+    (1, 'Poor'),
+    (2, 'Average'),
+    (3, 'Good'),
+    (4, 'Very Good'),
+    (5, 'Excellent')
+)
+
+	is_favorite = models.IntegerField(choices=Rating_CHOICES, default=1)
+	review = models.CharField(max_length=128)
+	page = models.ForeignKey(Page, on_delete=models.CASCADE)
+
+
+
+	def __str__(self):
+		return self.review
