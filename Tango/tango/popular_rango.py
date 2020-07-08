@@ -8,7 +8,7 @@ def populate():
 	add_page(cat=python_cat,
 		title="Official Python Tutorial",
 		url="http://docs.python.org/2/tutorial/")
-	
+		
 	add_page(cat=python_cat,
 		title="How to Think like a Computer Scientist",
 		url="http://www.greenteapress.com/thinkpython/")
@@ -17,7 +17,7 @@ def populate():
 		title="Learn Python in 10 Minutes",
 		url="http://www.korokithakis.net/tutorials/python/")
 		
-		django_cat = add_cat("Django")
+	django_cat = add_cat("Django")
 
 	add_page(cat=django_cat,
 		title="Official Django Tutorial",
@@ -44,7 +44,7 @@ def populate():
 		# Print out what we have added to the user.
 	for c in Category.objects.all():
 		for p in Page.objects.filter(category=c):
-			print (- {0} - {1}).format(str(c), str(p))
+			print(f'- {str(c)} - {str(p)}')
 
 def add_page(cat, title, url, views=0):
 	p = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)[0]
@@ -58,7 +58,9 @@ def add_cat(name):
 if __name__ == '__main__':
 
 	print ('Starting Rango population script...')
-	os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango.→ settings')
+	os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango.settings')
 	
+	import django
+	django.setup()
 	from rango.models import Category, Page
 	populate()
