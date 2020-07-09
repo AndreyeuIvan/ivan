@@ -8,4 +8,4 @@ class PageAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(Rating)
-
+admin.site.register(UserProfile)
