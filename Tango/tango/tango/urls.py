@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('^$', views.hello, name='index'),
     re_path(r'^about/', views.index, name='hello'),
+    re_path(r'add_category/$', views.add_category, name='add_category'),
     re_path(r'category/(?P<category_name_url>\w+)/$', views.category, name='category'),
-]
+    ]
