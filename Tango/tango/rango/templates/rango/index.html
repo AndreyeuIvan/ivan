@@ -6,9 +6,26 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     </head>
         <body>
-            <h1>Rango says... hello Ivar <strong>{{ boldmessage }}</strong><br /></h1>
-            <a href="/rango/add_category/"> Add a New Category </a>
-            <a href="/rango/register/">Register Here </a>
+            <h1>Rango says... hello <strong>{{ user.username }}{{ boldmessage }}</strong><br /></h1>
+           <ul>
+
+            {% if user.is_authenticated %}
+
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
+
+            {% else %}
+
+                <li><a href="{% url 'login' %}">Sign in</a></li>
+                <li><a href="{% url 'register' %}">Sign up</a></li>
+
+            {% endif %}
+
+                <li><a href="{% url 'add_category' %}"> Add a New Category </a> </li>
+                <li><a href="{% url 'about' %}"> About </a></li>
+                <li><a href="{% url 'index' %}"> Home </a></li>
+                <li><a href="{% url 'register' %}"> Register </a></li>
+            </ul>    
             {% if categories %}
                 <ul>
                     {% for category in categories %}
@@ -20,5 +37,10 @@
             {% endif %}
             <a href="/ ">About</a><br/>
             <img src="{% static 'rango.jpg' %}" alt="Picture of Rango" />
+            {% if user.is_authenticated %}
+            howdy {{ user.username }}!
+            {% else %}
+            hey there parther !
+            {% endif %}
         </body>
 </html>

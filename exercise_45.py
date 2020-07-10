@@ -6,7 +6,7 @@ from random import randint
 class Programmer:
 
     def enter(self):
-        print('Let"s start programming')
+        print('Let"s start programming. You have 4 ways to become: 1.Data Scientiest, 2.Tester, 3.Python Backend, 4.Python Frontend')
         exit(1)
 
 class Work:
@@ -28,15 +28,14 @@ class Work:
 class Intern(Programmer):
 
     def enter(self):
-        print('Hello! Young fellow.')
+        print('Hello! Young fellow. You are on Intern level.')
 
         action = input(
             '''Answer a following questions: 
-            if you write this?
-            what will be the output?  '''
+            What is bool operator of 0.'''
             )
 
-        if action == 'Zen of Python':
+        if action == 'False':
             return 'junior'
 
 

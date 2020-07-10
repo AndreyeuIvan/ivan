@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from rango.models import Category, Page
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -99,3 +102,40 @@ def register(request):
                 'profile_form':profile_form,
                 'registered': registered
                 })
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponse(reverse('index'))
+            else:
+                HttpResponseRedirect('YOur account is disables')
+        else:
+            print(f'Invalid details{username}, {password}')
+            return HttpResponse('Invalid details')
+    else:
+        return render(request, 'rango/login.html')
+
+
+def some_view(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('You are logged in.')
+    else:
+        return HttpResponse('You are not logged in.')
+
+
+def restricted(request):
+    return HttpResponse('Eee boy')
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
