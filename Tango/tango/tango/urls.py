@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path , re_path
+from django.urls import path , re_path, include
 from rango import views
+from rango.views import MyRegistrationView
 import re
 
 
@@ -29,4 +30,6 @@ urlpatterns = [
     re_path(r'^login/$', views.user_login, name='login'),
     re_path(r'restricted/', views.restricted, name='restricted'),
     re_path(r'^logout/$', views.user_logout, name='logout'),
+    re_path(r'^accounts/',include('registration.backends.simple.urls')),
+    re_path(r'^accounts/register/$',MyRegistrationView.as_view(), name='registration_register'),
     ]

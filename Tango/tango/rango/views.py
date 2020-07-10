@@ -5,18 +5,26 @@ from django.core.exceptions import ObjectDoesNotExist
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from registration.backends.simple.views import RegistrationView
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 def index(request):
+    request.session.set_test_cookie()
     category_list = Category.objects.order_by('name')[:5]
     context_dict = {'categories' : category_list }
     for category in category_list:
         category.url = category.name.replace(' ', '_')
-    return render(request, 'rango/index.html', context_dict)
+    responce = render(request, 'rango/index.html', context_dict)
+    visitor_cookie_handler(request, responce)
+    return responce
 
 
 def hello(request):
+    if request.session.test_cookie_worked():
+        print('TESTTTTTT')
+        request.session.delete_test_cookie()
     return HttpResponse('Rango Says: <a href="/about/"> Index </a> page.')
 
 
@@ -139,3 +147,23 @@ def restricted(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+
+def visitor_cookie_handler(request, responce):
+    visits = int(request.COOKIES.get('visits', '1'))
+    last_visit_cookie = request.COOKIES.get('last_visit', str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+                                        '%Y-%m-%d %H:%M:%S')
+    if (datetime.now() - last_visit_time).days > 0:
+        visits = visits + 1
+        responce.set_cookie('last_visit', str(datetime.now()))
+    else:
+        visits = 1
+        responce.set_cookie('last_visit', last_visit_cookie)
+    
+    responce.set_cookie('visits', visits)
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return '/rango/'
