@@ -32,4 +32,4 @@ urlpatterns = [
     re_path(r'^logout/$', views.user_logout, name='logout'),
     re_path(r'^accounts/',include('registration.backends.simple.urls')),
     re_path(r'^accounts/register/$',MyRegistrationView.as_view(), name='registration_register'),
-    ]
+    #re_path(r'^like/$', views.like_category, name='like_category'),]

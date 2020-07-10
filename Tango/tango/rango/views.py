@@ -167,3 +167,19 @@ def visitor_cookie_handler(request, responce):
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         return '/rango/'
+
+
+'''Ajax
+@login_required
+def like_category(request):
+    cat_id = None
+    if request.method == 'GET':
+    cat_id = request.GET['category_id']
+    likes = 0
+    if cat_id:
+        cat = Category.objects.get(id=int(cat_id))
+        if cat:
+            = cat.likes + 1
+            cat.likes = likes
+            cat.save()
+    return HttpResponse(likes)'''
