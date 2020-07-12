@@ -2,36 +2,48 @@ import os
 
 
 def populate():
-	python_cat = add_cat('Python')
+	python_cat = add_cat('Python',128,64)
 
 
 	add_page(cat=python_cat,
 		title="Official Python Tutorial",
-		url="http://docs.python.org/2/tutorial/")
+		url="http://docs.python.org/2/tutorial/",
+		views=5
+		)
 		
 	add_page(cat=python_cat,
 		title="How to Think like a Computer Scientist",
-		url="http://www.greenteapress.com/thinkpython/")
+		url="http://www.greenteapress.com/thinkpython/",
+		views=4
+		)
 	
 	add_page(cat=python_cat,
 		title="Learn Python in 10 Minutes",
-		url="http://www.korokithakis.net/tutorials/python/")
+		url="http://www.korokithakis.net/tutorials/python/",
+		views=2
+		)
 		
-	django_cat = add_cat("Django")
+	django_cat = add_cat("Django",64,32)
 
 	add_page(cat=django_cat,
 		title="Official Django Tutorial",
-		url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/")
+		url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/",
+		views=1
+		)
 
 	add_page(cat=django_cat,
 		title="Django Rocks",
-		url="http://www.djangorocks.com/")
+		url="http://www.djangorocks.com/",
+		views=4
+		)
 
 	add_page(cat=django_cat,
 		title="How to Tango with Django",
-		url="http://www.tangowithdjango.com/")
+		url="http://www.tangowithdjango.com/",
+		views=3
+		)
 
-	frame_cat = add_cat("Other Frameworks")
+	frame_cat = add_cat("Other Frameworks",32,16)
 
 	add_page(cat=frame_cat,
 		title="Bottle",
@@ -50,8 +62,8 @@ def add_page(cat, title, url, views=0):
 	p = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)[0]
 	return p
 
-def add_cat(name):
-	c = Category.objects.get_or_create(name=name)[0]
+def add_cat(name, likes, views):
+	c = Category.objects.get_or_create(name=name, likes=likes, views=views)[0]
 	return c
 
 	# Start execution here!

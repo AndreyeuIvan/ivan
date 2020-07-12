@@ -8,12 +8,14 @@ from django.urls import reverse
 from registration.backends.simple.views import RegistrationView
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from rango.bingsearch import run_query
 
 
 def index(request):
     request.session.set_test_cookie()
     category_list = Category.objects.order_by('name')[:5]
-    context_dict = {'categories' : category_list }
+    pages = Page.objects.order_by('-views')[:5]
+    context_dict = {'categories' : category_list, 'pages':pages}
     for category in category_list:
         category.url = category.name.replace(' ', '_')
     responce = render(request, 'rango/index.html', context_dict)
@@ -25,7 +27,7 @@ def hello(request):
     if request.session.test_cookie_worked():
         print('TESTTTTTT')
         request.session.delete_test_cookie()
-    return HttpResponse('Rango Says: <a href="/about/"> Index </a> page.')
+    return render(request, 'rango/about.html')
 
 
 def category(request, category_name_url):
@@ -54,27 +56,24 @@ def add_category(request):
 
 
 def add_page(request, category_name_url):
-    category_name = decode_url(category_name_url)
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+    form = PageForm()
     if request.method == 'POST':
         form = PageForm(request.POST)
-
         if form.is_valid():
-            page = form.save(commit=False)
-
-            cat = Category.objects.get(name=category_name)
-            page.category = cat
-
-            page.views=0
-            page.save()
-            return category(request, category_name_url)
-        else:
-            print(form.errors)
+            if category:
+                page = form.save(commit=False)
+                page.category = category
+                page.views = 0
+                page.save()
+                return show_category(request, category_name_slug)
     else:
-        form = PageForm()
-
-    return render(request, 'rango/add_page.html',
-            {'category_name_url': category_name_url,
-            'category_name' : category_name, 'form':form})
+        print(form.errors)
+    context_dict = {'form':form, 'category': category}
+    return render(request, 'rango/add_page.html', context_dict)
 
 
 def register(request):
@@ -168,6 +167,15 @@ class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         return '/rango/'
 
+
+def search(request):
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+             # Run our Webhose function to get the results list!
+             result_list = run_query(query)
+    return render(request, 'rango/search.html', {'result_list': result_list})
 
 '''Ajax
 @login_required

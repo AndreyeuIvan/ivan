@@ -1,0 +1,12 @@
+{% extends 'rango/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	About page
+	{% endblock %}
+
+{% block body_block %}
+	<h1> Thus tutorial has been put togethe by Ivar</h1>
+	<!-- Image -->
+    <a href="{% url 'index' %}"><img src="{% static 'cat.jpg' %}" alt="Picture of Rango" /></a>
+{% endblock %}

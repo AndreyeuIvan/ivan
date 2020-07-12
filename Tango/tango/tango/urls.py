@@ -22,8 +22,8 @@ import re
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^$', views.hello, name='index'),
-    re_path(r'^about/', views.index, name='about'),
+    re_path(r'^$', views.index, name='index'),
+    re_path(r'^about/', views.hello, name='about'),
     re_path(r'add_category/$', views.add_category, name='add_category'),
     re_path(r'category/(?P<category_name_url>\w+)/$', views.category, name='category'),
     re_path(r'register/$', views.register, name='register'),
@@ -32,4 +32,5 @@ urlpatterns = [
     re_path(r'^logout/$', views.user_logout, name='logout'),
     re_path(r'^accounts/',include('registration.backends.simple.urls')),
     re_path(r'^accounts/register/$',MyRegistrationView.as_view(), name='registration_register'),
-    #re_path(r'^like/$', views.like_category, name='like_category'),]
+    #re_path(r'^like/$', views.like_category, name='like_category'),
+    ]
