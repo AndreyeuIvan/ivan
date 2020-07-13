@@ -2,7 +2,7 @@ import json
 
 # Add your Microsoft Account Key to a file called bing.key
 
-def read_bing_key():
+'''def read_bing_key():
 	"""
 	reads the BING API key from a file called 'bing.key'
 	returns: a string which is either None, i.e. no key found, or with a key
@@ -13,19 +13,19 @@ def read_bing_key():
 	# Here we using "with" when opening documents
 	# http://docs.quantifiedcode.com/python-anti-patterns/maintainability/not_using_with_to_open_files.html
 	
-	bing_api_key = 'b6556896-a2ff-4e37-a3da-134065f06b33'
+	bing_api_key = None
 	try:
-		with open('bing.key','r') as f:
+		with open('bingkey.txt','r') as f:
 			bing_api_key = f.readline()
 	except:
 		raise IOError('bing.key file not found')
 		
-	return bing_api_key
+	return bing_api_key'''
 	
 
 def run_query(search_terms):
 	
-	bing_api_key = read_bing_key()
+	bing_api_key = 'b6556896-a2ff-4e37-a3da-134065f06b33'
 	if not bing_api_key:
 		raise KeyError('Bing Key Not Found')
 	
